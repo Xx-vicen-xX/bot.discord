@@ -1,0 +1,42 @@
+import discord
+import random
+intents = discord.Intents.default()
+intents.message_content = True
+client = discord.Client(intents=intents)
+@client.event
+async def on_ready():
+    print(f'Sirvioooooooo me conecté como:  {client.user}')
+@client.event
+async def on_member_join(member):
+    channel = discord.utils.get(member.guild.text_channels, name="general")
+    if channel:
+        await channel.send(f"¡Bienvenido/a {member.mention}! 🎉 ¡Nos alegra que te unas!")
+@client.event
+async def on_message(message):
+    if message.author == client.user:
+        return
+    elif message.content.startswith('hola'):
+        await message.channel.send("¡Que onda crack! 🖖")
+
+    elif message.content.startswith('chau'):
+        await message.channel.send("¡Nos vemos papu! 👋")
+
+    elif message.content.startswith("todo bien"):
+        await message.channel.send("¡Sí, todo tranqui! 😎")
+
+    elif message.content.startswith("comandos"):
+        await message.channel.send("Comandos disponibles:\n- `hola`\n- `chau`\n- `todo bien`\n- `cuentame un chiste`\n- `dame un numero del 1 al 100`")
+
+    elif message.content.startswith("cuentame un chiste"):
+        chistes = [
+            "¿Por que el libro de matematicas esta triste? Porque tiene demasiados problemas",
+            "¿Que le dice una impresora a otra? ¿Esa hoja es tuya o es una impresion mia?",
+            "¿Qué hace una abeja en el gimnasio? Zum-ba"
+        ]
+        await message.channel.send(random.choice(chistes))
+
+    elif message.content.startswith("dame un numero del 1 al 100"):
+        numero = random.randint(1, 100)
+        await message.channel.send(f"Te doy el número: {numero}")
+
+client.run("")
